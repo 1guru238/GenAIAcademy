@@ -362,19 +362,23 @@
       app = initializeApp(firebaseConfig);
       db = getFirestore(app);
       auth = getAuth(app);
+      console.log("Firebase app initialized.");
 
       onAuthStateChanged(auth, async (user) => {
         if (user) {
           currentUserId = user.uid;
+          console.log("User authenticated:", currentUserId);
           loadTestimonials(); // Load testimonials once authenticated
         } else {
           // Sign in anonymously if no user is logged in
           try {
+            console.log("Attempting anonymous sign-in...");
             if (typeof __initial_auth_token !== 'undefined') {
               await signInWithCustomToken(auth, __initial_auth_token);
             } else {
               await signInAnonymously(auth);
             }
+            console.log("Anonymous sign-in successful or token sign-in initiated.");
           } catch (error) {
             console.error("Error during anonymous sign-in:", error);
             showModal('Authentication failed. Please try refreshing the page.');
@@ -423,6 +427,7 @@
 
       displayElement.textContent = ''; // Clear previous content
       loadingElement.classList.remove('hidden'); // Show loading message
+      console.log(`Generating content for: ${prompt}`);
 
       try {
         let chatHistory = [];
@@ -439,6 +444,7 @@
         });
 
         const result = await response.json();
+        console.log("Gemini API response:", result);
 
         if (result.candidates && result.candidates.length > 0 &&
             result.candidates[0].content && result.candidates[0].content.parts &&
@@ -460,21 +466,25 @@
     // Function to load testimonials from Firestore
     function loadTestimonials() {
       if (!db || !currentUserId) {
-        console.log("Firestore not initialized or user not authenticated yet.");
+        console.log("Firestore not initialized or user not authenticated yet. Cannot load testimonials.");
         return;
       }
+      console.log("Loading testimonials for user:", currentUserId);
 
       const testimonialsRef = collection(db, `artifacts/${appId}/public/data/testimonials`);
       const q = query(testimonialsRef, orderBy('timestamp', 'desc')); // Order by timestamp
 
       onSnapshot(q, (snapshot) => {
+        console.log("Received testimonial snapshot. Number of docs:", snapshot.docs.length);
         testimonialsList.innerHTML = ''; // Clear existing testimonials
         if (snapshot.empty) {
           noTestimonialsMessage.classList.remove('hidden');
+          console.log("No testimonials found. Showing 'no testimonials' message.");
         } else {
           noTestimonialsMessage.classList.add('hidden'); // Hide the "no testimonials" message
           snapshot.forEach((doc) => {
             const data = doc.data();
+            console.log("Adding testimonial:", data);
             const ratingStars = '★'.repeat(data.rating || 0) + '☆'.repeat(5 - (data.rating || 0)); // Display stars
             const testimonialDiv = document.createElement('div');
             testimonialDiv.className = 'bg-gray-700 p-4 rounded-lg shadow-md mb-4';
@@ -497,6 +507,7 @@
     // Event listener for submitting a testimonial
     if (submitTestimonialBtn) {
       submitTestimonialBtn.addEventListener('click', async () => {
+        console.log("Submit Testimonial button clicked.");
         const reviewerName = reviewerNameInput.value.trim();
         const testimonialText = testimonialTextInput.value.trim();
         const selectedRating = document.querySelector('input[name="rating"]:checked');
@@ -504,16 +515,19 @@
 
         if (!reviewerName || !testimonialText || rating === 0) {
           showModal('Please enter your name, testimonial, and select a rating.');
+          console.log("Validation failed: Missing name, text, or rating.");
           return;
         }
 
         if (!currentUserId) {
           showModal('Authentication in progress. Please wait a moment and try again.');
+          console.log("Authentication not ready. currentUserId is null.");
           return;
         }
 
         testimonialFormLoading.classList.remove('hidden');
         testimonialFormMessage.textContent = '';
+        console.log("Attempting to submit testimonial to Firestore...");
 
         try {
           await addDoc(collection(db, `artifacts/${appId}/public/data/testimonials`), {
@@ -528,8 +542,9 @@
           // Uncheck all radio buttons after submission
           document.querySelectorAll('input[name="rating"]').forEach(radio => radio.checked = false);
           showModal('Testimonial submitted successfully!');
+          console.log("Testimonial submitted successfully!");
         } catch (e) {
-          console.error("Error adding document: ", e);
+          console.error("Error adding document to Firestore: ", e);
           showModal('Error submitting testimonial. Please try again.');
         } finally {
           testimonialFormLoading.classList.add('hidden');
