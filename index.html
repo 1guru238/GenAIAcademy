@@ -192,7 +192,7 @@
         <span class="text-5xl mb-3">🧠</span>
         <strong class="font-semibold text-xl block mb-1">What is GenAI?</strong>
         <span class="text-gray-400 text-base">Discover how tools like ChatGPT are already reshaping the world.</span>
-        <button id="getGenAIExplanationBtn" class="mt-4 bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('Provide a very concise, one-sentence explanation of what Generative AI (GenAI) is, suitable for a beginner. Do not include any introductory or concluding phrases.', 'genAIExplanationDisplay', 'genAILoadingMessage')" class="mt-4 bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Explain GenAI
         </button>
         <div id="genAIExplanationDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -202,7 +202,7 @@
         <span class="text-5xl mb-3">⚡</span>
         <strong class="font-semibold text-xl block mb-1">Prompt Engineering</strong>
         <span class="text-gray-400 text-base">Learn how to talk to AI — and get the results you want.</span>
-        <button id="generatePromptBtn" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('Generate a creative, concise, and inspiring prompt idea for a large language model like ChatGPT, focusing on a practical, everyday use case. The output should be just the prompt idea, without any introductory or concluding remarks. For example: \'Write a short story about a talking dog who becomes a detective.\'', 'generatedPromptDisplay', 'loadingMessage')" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Get a Prompt Idea
         </button>
         <div id="generatedPromptDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -212,7 +212,7 @@
         <span class="text-5xl mb-3">🧑‍💻</span>
         <strong class="font-semibold text-xl block mb-1">Live Demo</strong>
         <span class="text-gray-400 text-base">Try it for yourself in a hands-on example.</span>
-        <button id="getLiveDemoScenarioBtn" class="mt-4 bg-yellow-600 text-white px-5 py-2 rounded-full hover:bg-yellow-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('Describe a concise, practical, real-life scenario where a beginner could apply basic GenAI knowledge. Focus on a single, actionable situation, like \'Draft an email to a colleague\' or \'Summarize a long article\'. The output should be just the scenario, without any introductory or concluding remarks.', 'liveDemoScenarioDisplay', 'liveDemoLoadingMessage')" class="mt-4 bg-yellow-600 text-white px-5 py-2 rounded-full hover:bg-yellow-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Get Scenario
         </button>
         <div id="liveDemoScenarioDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -222,7 +222,7 @@
         <span class="text-5xl mb-3">🏢</span>
         <strong class="font-semibold text-xl block mb-1">AI at Work</strong>
         <span class="text-gray-400 text-base">See how ChatGPT can boost your productivity and save hours.</span>
-        <button id="getAIAtWorkExampleBtn" class="mt-4 bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('Provide a brief, practical example of how a large language model like ChatGPT can enhance productivity or save time in a typical office work scenario. Be concise, e.g., \'Use AI to quickly generate meeting minutes from a transcript.\'', 'aiAtWorkExampleDisplay', 'aiAtWorkLoadingMessage')" class="mt-4 bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Get Example
         </button>
         <div id="aiAtWorkExampleDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -232,7 +232,7 @@
         <span class="text-5xl mb-3">🛡️</span>
         <strong class="font-semibold text-xl block mb-1">Cautions & Awareness</strong>
         <span class="text-gray-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
-        <button id="getCautionsAwarenessBtn" class="mt-4 bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('In one concise sentence, explain a key caution or ethical consideration when using Generative AI tools to avoid misinformation or over-reliance. For example: \'Always fact-check AI-generated information.\'', 'cautionsAwarenessDisplay', 'cautionsAwarenessLoadingMessage')" class="mt-4 bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Get Caution
         </button>
         <div id="cautionsAwarenessDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -242,7 +242,7 @@
         <span class="text-5xl mb-3">🎮</span>
         <strong class="font-semibold text-xl block mb-1">Game Idea</strong>
         <span class="text-gray-400 text-base">Have some fun with AI with an AI related game to reward you for your great efforts!</span>
-        <button id="getFunGameIdeaBtn" class="mt-4 bg-pink-600 text-white px-5 py-2 rounded-full hover:bg-pink-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+        <button onclick="generateContentForLesson('Suggest a very short, simple, interactive game idea that could be played using a large language model (like ChatGPT) to reinforce learning about AI. Be concise and focus on the game concept, e.g., \'AI Storyteller: Players take turns adding sentences to a story generated by AI.\'', 'funGameIdeaDisplay', 'funGameLoadingMessage')" class="mt-4 bg-pink-600 text-white px-5 py-2 rounded-full hover:bg-pink-700 transition-colors duration-200 text-sm font-semibold shadow-md">
           ✨ Get Game Idea
         </button>
         <div id="funGameIdeaDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
@@ -386,36 +386,6 @@
       showModal('Failed to initialize Firebase. Please try refreshing the page.');
     }
 
-    // Get elements for Prompt Engineering
-    const generatePromptBtn = document.getElementById('generatePromptBtn');
-    const generatedPromptDisplay = document.getElementById('generatedPromptDisplay');
-    const loadingMessage = document.getElementById('loadingMessage');
-
-    // Get elements for What is GenAI?
-    const getGenAIExplanationBtn = document.getElementById('getGenAIExplanationBtn');
-    const genAIExplanationDisplay = document.getElementById('genAIExplanationDisplay');
-    const genAILoadingMessage = document.getElementById('genAILoadingMessage');
-
-    // Get elements for Live Demo
-    const getLiveDemoScenarioBtn = document.getElementById('getLiveDemoScenarioBtn');
-    const liveDemoScenarioDisplay = document.getElementById('liveDemoScenarioDisplay');
-    const liveDemoLoadingMessage = document.getElementById('liveDemoLoadingMessage');
-
-    // Get elements for AI at Work
-    const getAIAtWorkExampleBtn = document.getElementById('getAIAtWorkExampleBtn');
-    const aiAtWorkExampleDisplay = document.getElementById('aiAtWorkExampleDisplay'); 
-    const aiAtWorkLoadingMessage = document.getElementById('aiAtWorkLoadingMessage');
-
-    // Get elements for Cautions & Awareness
-    const getCautionsAwarenessBtn = document.getElementById('getCautionsAwarenessBtn');
-    const cautionsAwarenessDisplay = document.getElementById('cautionsAwarenessDisplay');
-    const cautionsAwarenessLoadingMessage = document.getElementById('cautionsAwarenessLoadingMessage');
-
-    // Get elements for Fun Game
-    const getFunGameIdeaBtn = document.getElementById('getFunGameIdeaBtn');
-    const funGameIdeaDisplay = document.getElementById('funGameIdeaDisplay');
-    const funGameLoadingMessage = document.getElementById('funGameLoadingMessage');
-
     // Get elements for Testimonial Form
     const submitTestimonialBtn = document.getElementById('submitTestimonialBtn');
     const reviewerNameInput = document.getElementById('reviewerName');
@@ -441,8 +411,16 @@
       messageModal.classList.add('hidden');
     });
 
-    // Function to call Gemini API
-    async function callGeminiAPI(prompt, displayElement, loadingElement) {
+    // Function to call Gemini API and display content for lesson buttons
+    async function generateContentForLesson(prompt, displayElementId, loadingElementId) {
+      const displayElement = document.getElementById(displayElementId);
+      const loadingElement = document.getElementById(loadingElementId);
+
+      if (!displayElement || !loadingElement) {
+        console.error(`Error: Could not find display element with ID ${displayElementId} or loading element with ID ${loadingElementId}.`);
+        return;
+      }
+
       displayElement.textContent = ''; // Clear previous content
       loadingElement.classList.remove('hidden'); // Show loading message
 
@@ -477,54 +455,6 @@
       } finally {
         loadingElement.classList.add('hidden'); // Hide loading message
       }
-    }
-
-    // Event listener for "Get a Prompt Idea" button
-    if (generatePromptBtn) {
-      generatePromptBtn.addEventListener('click', () => {
-        const prompt = "Generate a creative, concise, and inspiring prompt idea for a large language model like ChatGPT, focusing on a practical, everyday use case. The output should be just the prompt idea, without any introductory or concluding remarks. For example: 'Write a short story about a talking dog who becomes a detective.'";
-        callGeminiAPI(prompt, generatedPromptDisplay, loadingMessage);
-      });
-    }
-
-    // Event listener for "Explain GenAI" button
-    if (getGenAIExplanationBtn) {
-      getGenAIExplanationBtn.addEventListener('click', () => {
-        const prompt = "Provide a very concise, one-sentence explanation of what Generative AI (GenAI) is, suitable for a beginner. Do not include any introductory or concluding phrases.";
-        callGeminiAPI(prompt, genAIExplanationDisplay, genAILoadingMessage);
-      });
-    }
-
-    // Event listener for "Get Live Demo Scenario" button
-    if (getLiveDemoScenarioBtn) {
-      getLiveDemoScenarioBtn.addEventListener('click', () => {
-        const prompt = "Describe a concise, practical, real-life scenario where a beginner could apply basic GenAI knowledge. Focus on a single, actionable situation, like 'Draft an email to a colleague' or 'Summarize a long article'. The output should be just the scenario, without any introductory or concluding remarks.";
-        callGeminiAPI(prompt, liveDemoScenarioDisplay, liveDemoLoadingMessage);
-      });
-    }
-
-    // Event listener for "Get AI at Work Example"
-    if (getAIAtWorkExampleBtn) {
-      getAIAtWorkExampleBtn.addEventListener('click', () => {
-        const prompt = "Provide a brief, practical example of how a large language model like ChatGPT can enhance productivity or save time in a typical office work scenario. Be concise, e.g., 'Use AI to quickly generate meeting minutes from a transcript.'";
-        callGeminiAPI(prompt, aiAtWorkExampleDisplay, aiAtWorkLoadingMessage);
-      });
-    }
-
-    // Event listener for "Get Caution" button
-    if (getCautionsAwarenessBtn) {
-      getCautionsAwarenessBtn.addEventListener('click', () => {
-        const prompt = "In one concise sentence, explain a key caution or ethical consideration when using Generative AI tools to avoid misinformation or over-reliance. For example: 'Always fact-check AI-generated information.'";
-        callGeminiAPI(prompt, cautionsAwarenessDisplay, cautionsAwarenessLoadingMessage);
-      });
-    }
-
-    // Event listener for "Get Fun Game Idea" button
-    if (getFunGameIdeaBtn) {
-      getFunGameIdeaBtn.addEventListener('click', () => {
-        const prompt = "Suggest a very short, simple, interactive game idea that could be played using a large language model (like ChatGPT) to reinforce learning about AI. Be concise and focus on the game concept, e.g., 'AI Storyteller: Players take turns adding sentences to a story generated by AI.'";
-        callGeminiAPI(prompt, funGameIdeaDisplay, funGameLoadingMessage);
-      });
     }
 
     // Function to load testimonials from Firestore
