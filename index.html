@@ -211,7 +211,7 @@
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🛡️</span>
         <strong class="font-semibold text-xl block mb-1">Cautions & Awareness</strong>
-        <span class="text-gray-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
+        <span class="text-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🎮</span>
@@ -252,31 +252,18 @@
       Testimonials to be added soon, be the first to be here by booking now!
     </div>
 
-    <div id="testimonialForm" class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
-      <h3 class="text-xl font-semibold mb-4 text-white">Share Your Experience!</h3>
-      <input type="text" id="reviewerName" placeholder="Your Name" class="w-full p-3 mb-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500" />
-      
-      <div class="mb-4 text-center">
-        <label for="rating" class="block text-white text-lg mb-2">Rate Your Experience:</label>
-        <div class="star-rating inline-flex flex-row-reverse justify-center">
-          <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
-          <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
-          <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
-          <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
-          <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
-        </div>
-      </div>
-
-      <textarea id="testimonialText" placeholder="Your testimonial here..." rows="4" class="w-full p-3 mb-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"></textarea>
-      <button id="submitTestimonialBtn" class="bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition-colors duration-200 font-semibold shadow-md">
-        Submit Testimonial
-      </button>
-      <div id="testimonialFormLoading" class="mt-2 text-indigo-400 text-sm hidden">Submitting...</div>
-      <div id="testimonialFormMessage" class="mt-2 text-sm"></div>
-    </div>
-
     <div id="testimonialsList" class="space-y-6">
-      <!-- Testimonials will be loaded here -->
+      <!-- Testimonials will be added here by adjusting the code directly -->
+      <!-- Example Testimonial (uncomment and modify to add your own): -->
+      <!--
+      <div class="bg-gray-700 p-4 rounded-lg shadow-md mb-4">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-yellow-400 text-xl">★★★★★</span>
+          <p class="text-gray-400 text-sm">- Jane Doe</p>
+        </div>
+        <p class="text-gray-200 italic">"This lesson was incredibly insightful and easy to follow!"</p>
+      </div>
+      -->
     </div>
   </section>
 
@@ -315,252 +302,83 @@
 </div>
 
 <script type="module">
-  // Firebase imports
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  // All Firebase imports have been removed as per your request.
+  // The testimonial section is now static.
 
-  // --- IMPORTANT: REPLACE THESE WITH YOUR ACTUAL FIREBASE CONFIGURATION ---
-  // You can find this in your Firebase project settings -> "Add app" -> "Web"
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY", // Example: "AIzaSyC..."
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com", // Example: "my-project-12345.firebaseapp.com"
-    projectId: "YOUR_PROJECT_ID", // Example: "my-project-12345"
-    storageBucket: "YOUR_PROJECT_ID.appspot.com", // Example: "my-project-12345.appspot.com"
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Example: "1234567890"
-    appId: "YOUR_APP_ID" // Example: "1:234567890:web:abcdef1234567890"
-  };
-
-  // Use your actual Firebase Project ID here. It's part of your firebaseConfig.
-  const appId = firebaseConfig.projectId; // This will now use the projectId from your config
-  // --- END OF IMPORTANT CONFIGURATION ---
-
-
-  // Firebase initialization (global for access within event listeners)
-  let app, db, auth;
-  let currentUserId = null;
+  // Global references for modal elements, initialized as soon as possible
+  let messageModal;
+  let modalMessage;
+  let closeModalBtn;
   
-  // Initialize Firebase and set up auth listener
+  // Initialize elements and setup modal
   document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      // Check if firebaseConfig has been replaced with actual values
-      if (firebaseConfig.apiKey === "YOUR_API_KEY" || firebaseConfig.projectId === "YOUR_PROJECT_ID") {
-        showModal("Firebase configuration is missing! Please replace the placeholder values in the script with your actual Firebase project details for testimonials to work on your published site.");
-        console.error("Firebase configuration placeholders detected. Testimonials will not work on published site until updated.");
-        return; // Stop execution if config is not set
-      }
+    // Get modal elements immediately when DOM is ready
+    messageModal = document.getElementById('messageModal');
+    modalMessage = document.getElementById('modalMessage');
+    closeModalBtn = document.getElementById('closeModalBtn');
 
-      app = initializeApp(firebaseConfig);
-      db = getFirestore(app);
-      auth = getAuth(app);
-      console.log("Firebase app initialized.");
-
-      onAuthStateChanged(auth, async (user) => {
-        if (user) {
-          currentUserId = user.uid;
-          console.log("User authenticated:", currentUserId);
-          loadTestimonials(); // Load testimonials once authenticated
-        } else {
-          // Sign in anonymously if no user is logged in
-          try {
-            console.log("Attempting anonymous sign-in...");
-            // __initial_auth_token is only available in Canvas, so we directly use signInAnonymously for GitHub
-            await signInAnonymously(auth);
-            console.log("Anonymous sign-in successful.");
-          } catch (error) {
-            console.error("Error during anonymous sign-in:", error);
-            showModal('Authentication failed. Please check your Firebase setup and try refreshing the page.');
-          }
+    // Attach event listener to closeModalBtn
+    if (closeModalBtn) {
+      closeModalBtn.addEventListener('click', () => {
+        messageModal.classList.add('hidden');
+        // Ensure only the OK button is present after closing
+        const modalContent = messageModal.querySelector('.modal-content');
+        const confirmBtn = modalContent.querySelector('.bg-red-600');
+        const cancelBtn = modalContent.querySelector('.bg-gray-500');
+        if (confirmBtn) confirmBtn.remove();
+        if (cancelBtn) cancelBtn.remove();
+        if (!modalContent.querySelector('#closeModalBtn')) {
+            modalContent.appendChild(closeModalBtn);
         }
       });
-    } catch (error) {
-      console.error("Error initializing Firebase:", error);
-      showModal('Failed to initialize Firebase. Please ensure your Firebase config is correct and try refreshing the page.');
     }
 
-    // Get elements for Testimonial Form
-    const submitTestimonialBtn = document.getElementById('submitTestimonialBtn');
-    const reviewerNameInput = document.getElementById('reviewerName');
-    const testimonialTextInput = document.getElementById('testimonialText');
-    const testimonialFormLoading = document.getElementById('testimonialFormLoading');
-    const testimonialFormMessage = document.getElementById('testimonialFormMessage');
+    // Function to show custom modal (still useful for general messages)
+    function showModal(message) {
+      if (!modalMessage || !messageModal) {
+        console.error("Modal elements not initialized when calling showModal.");
+        return; // Prevent errors if elements aren't ready
+      }
+      modalMessage.textContent = message;
+      
+      // Ensure only one OK button exists and remove any delete confirmation buttons
+      let modalContent = messageModal.querySelector('.modal-content');
+      let currentConfirmBtn = modalContent.querySelector('.bg-red-600');
+      let currentCancelBtn = modalContent.querySelector('.bg-gray-500');
+
+      if (currentConfirmBtn) currentConfirmBtn.remove();
+      if (currentCancelBtn) currentCancelBtn.remove();
+
+      // Re-append the original closeModalBtn if it was removed
+      if (!modalContent.querySelector('#closeModalBtn') && closeModalBtn) {
+          modalContent.appendChild(closeModalBtn);
+      }
+      
+      messageModal.classList.remove('hidden');
+    }
+
+    // The testimonial list and no testimonial message
     const testimonialsList = document.getElementById('testimonialsList');
     const noTestimonialsMessage = document.getElementById('noTestimonialsMessage');
 
-    // Modal elements
-    const messageModal = document.getElementById('messageModal');
-    const modalMessage = document.getElementById('modalMessage');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
-    // Function to show custom modal
-    function showModal(message) {
-      modalMessage.textContent = message;
-      // Ensure only one OK button exists
-      let existingOkButton = messageModal.querySelector('#closeModalBtn');
-      if (!existingOkButton) {
-        existingOkButton = document.createElement('button');
-        existingOkButton.id = 'closeModalBtn';
-        existingOkButton.textContent = 'OK';
-        existingOkButton.className = 'mt-4 bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200';
-        existingOkButton.addEventListener('click', () => {
-          messageModal.classList.add('hidden');
-          // Re-add the original OK button if it was removed for delete confirmation
-          const modalContent = messageModal.querySelector('.modal-content');
-          const confirmBtn = modalContent.querySelector('.bg-red-600');
-          const cancelBtn = modalContent.querySelector('.bg-gray-500');
-          if (confirmBtn) confirmBtn.remove();
-          if (cancelBtn) cancelBtn.remove();
-          if (!modalContent.querySelector('#closeModalBtn')) {
-              modalContent.appendChild(existingOkButton);
-          }
-        });
-        messageModal.querySelector('.modal-content').appendChild(existingOkButton);
-      } else {
-         // If OK button exists, ensure other buttons from delete confirmation are removed
-         const modalContent = messageModal.querySelector('.modal-content');
-         const confirmBtn = modalContent.querySelector('.bg-red-600');
-         const cancelBtn = modalContent.querySelector('.bg-gray-500');
-         if (confirmBtn) confirmBtn.remove();
-         if (cancelBtn) cancelBtn.remove();
-      }
-      messageModal.classList.remove('hidden');
-    }
-
-    // Function to delete a testimonial
-    window.deleteTestimonial = async function(docId, userIdOfTestimonial) {
-      if (!db || !currentUserId) {
-        showModal('Authentication not ready. Please try again.');
-        console.log("Delete failed: Firestore not initialized or user not authenticated.");
-        return;
-      }
-
-      // Temporarily remove default OK button to add Yes/No for confirmation
-      const existingOkButton = messageModal.querySelector('#closeModalBtn');
-      if (existingOkButton) existingOkButton.remove();
-
-      modalMessage.textContent = 'Are you sure you want to delete this testimonial?';
-      const modalContent = messageModal.querySelector('.modal-content');
-
-      const confirmDeleteBtn = document.createElement('button');
-      confirmDeleteBtn.textContent = 'Yes, Delete';
-      confirmDeleteBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md mr-2';
-      confirmDeleteBtn.onclick = async () => {
-        try {
-          await deleteDoc(doc(db, `artifacts/${appId}/public/data/testimonials`, docId));
-          showModal('Testimonial deleted successfully!');
-          console.log(`Testimonial with ID ${docId} deleted.`);
-        } catch (e) {
-          console.error("Error deleting document: ", e);
-          showModal('Error deleting testimonial. Please try again.');
-        }
-      };
-
-      const cancelDeleteBtn = document.createElement('button');
-      cancelDeleteBtn.textContent = 'Cancel';
-      cancelDeleteBtn.className = 'bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md';
-      cancelDeleteBtn.onclick = () => showModal('Operation cancelled.'); // Re-show modal with "OK"
-      
-      // Clear previous buttons before adding new ones
-      const oldConfirmBtn = modalContent.querySelector('.bg-red-600');
-      const oldCancelBtn = modalContent.querySelector('.bg-gray-500');
-      if (oldConfirmBtn) oldConfirmBtn.remove();
-      if (oldCancelBtn) oldCancelBtn.remove();
-
-      modalContent.appendChild(confirmDeleteBtn);
-      modalContent.appendChild(cancelDeleteBtn);
-      messageModal.classList.remove('hidden');
-    };
-
-
-    // Function to load testimonials from Firestore
-    function loadTestimonials() {
-      if (!db || !currentUserId) {
-        console.log("Firestore not initialized or user not authenticated yet. Cannot load testimonials.");
-        return;
-      }
-      console.log("Loading testimonials for user:", currentUserId);
-
-      const testimonialsRef = collection(db, `artifacts/${appId}/public/data/testimonials`);
-      const q = query(testimonialsRef, orderBy('timestamp', 'desc')); // Order by timestamp
-
-      onSnapshot(q, (snapshot) => {
-        console.log("Received testimonial snapshot. Number of docs:", snapshot.docs.length);
-        testimonialsList.innerHTML = ''; // Clear existing testimonials
-        if (snapshot.empty) {
-          noTestimonialsMessage.classList.remove('hidden');
-          console.log("No testimonials found. Showing 'no testimonials' message.");
+    // Function to display static testimonials (if any are manually added)
+    // This function will parse the HTML content of testimonialsList and hide noTestimonialsMessage if content exists.
+    function displayStaticTestimonials() {
+        // Check if testimonialsList has any child elements other than comments
+        const hasTestimonials = Array.from(testimonialsList.children).some(node => node.nodeType === Node.ELEMENT_NODE);
+        
+        if (hasTestimonials) {
+            noTestimonialsMessage.classList.add('hidden');
         } else {
-          noTestimonialsMessage.classList.add('hidden'); // Hide the "no testimonials" message
-          snapshot.forEach((doc) => {
-            const data = doc.data();
-            console.log("Adding testimonial:", data);
-            const ratingStars = '★'.repeat(data.rating || 0) + '☆'.repeat(5 - (data.rating || 0)); // Display stars
-            const testimonialDiv = document.createElement('div');
-            testimonialDiv.className = 'bg-gray-700 p-4 rounded-lg shadow-md mb-4';
-            testimonialDiv.innerHTML = `
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-yellow-400 text-xl">${ratingStars}</span>
-                <p class="text-gray-400 text-sm">- ${data.reviewerName || 'Anonymous'}</p>
-                <button onclick="deleteTestimonial('${doc.id}', '${data.userId}')" class="text-red-400 hover:text-red-600 text-sm ml-4">Delete</button>
-              </div>
-              <p class="text-gray-200 italic">"${data.testimonialText}"</p>
-            `;
-            testimonialsList.appendChild(testimonialDiv);
-          });
+            noTestimonialsMessage.classList.remove('hidden');
         }
-      }, (error) => {
-        console.error("Error fetching testimonials:", error);
-        showModal('Error loading testimonials. Please try again later.');
-      });
     }
 
-    // Event listener for submitting a testimonial
-    if (submitTestimonialBtn) {
-      submitTestimonialBtn.addEventListener('click', async () => {
-        console.log("Submit Testimonial button clicked.");
-        const reviewerName = reviewerNameInput.value.trim();
-        const testimonialText = testimonialTextInput.value.trim();
-        const selectedRating = document.querySelector('input[name="rating"]:checked');
-        const rating = selectedRating ? parseInt(selectedRating.value) : 0;
+    // Call this function on load to check for manually added testimonials
+    displayStaticTestimonials();
 
-        if (!reviewerName || !testimonialText || rating === 0) {
-          showModal('Please enter your name, testimonial, and select a rating.');
-          console.log("Validation failed: Missing name, text, or rating.");
-          return;
-        }
-
-        if (!currentUserId) {
-          showModal('Authentication in progress. Please wait a moment and try again.');
-          console.log("Authentication not ready. currentUserId is null.");
-          return;
-        }
-
-        testimonialFormLoading.classList.remove('hidden');
-        testimonialFormMessage.textContent = '';
-        console.log("Attempting to submit testimonial to Firestore...");
-
-        try {
-          await addDoc(collection(db, `artifacts/${appId}/public/data/testimonials`), {
-            reviewerName: reviewerName,
-            testimonialText: testimonialText,
-            rating: rating,
-            userId: currentUserId,
-            timestamp: serverTimestamp()
-          });
-          reviewerNameInput.value = '';
-          testimonialTextInput.value = '';
-          // Uncheck all radio buttons after submission
-          document.querySelectorAll('input[name="rating"]').forEach(radio => radio.checked = false);
-          showModal('Testimonial submitted successfully!');
-          console.log("Testimonial submitted successfully!");
-        } catch (e) {
-          console.error("Error adding document to Firestore: ", e);
-          showModal('Error submitting testimonial. Please try again.');
-        } finally {
-          testimonialFormLoading.classList.add('hidden');
-        }
-      });
-    }
+    // No Firebase initialization or testimonial submission/deletion logic here anymore.
+    // Testimonials will be added by modifying the HTML directly.
   });
 </script>
 
