@@ -80,7 +80,7 @@
     background-color: #4f46e5; /* Indigo-700 */
   }
 
-  /* Star rating styles */
+  /* Star rating styles (not used for static testimonials, but kept for consistency) */
   .star-rating input[type="radio"] {
     display: none;
   }
@@ -100,6 +100,24 @@
   .star-rating label:active {
     transform: scale(0.9);
   }
+
+  /* Progress bar styling */
+  .progress-bar-container {
+    width: 80%;
+    background-color: #333;
+    border-radius: 9999px; /* Full rounded corners */
+    overflow: hidden;
+    height: 20px; /* Height of the bar */
+    margin: 0 auto; /* Center the bar */
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background-color: #4CAF50; /* Green color for progress */
+    width: 0%; /* Initial width */
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out; /* Smooth transition for width change */
+  }
 </style>
 </head>
 <body class="min-h-screen bg-black text-white leading-relaxed flex flex-col">
@@ -111,6 +129,7 @@
       <li><a href="#why-program" class="text-white hover:text-gray-300 transition-colors duration-200">Why Us</a></li>
       <li><a href="#what-learn" class="text-white hover:text-gray-300 transition-colors duration-200">What You'll Learn</a></li>
       <li><a href="#about-me" class="text-white hover:text-gray-300 transition-colors duration-200">About Me</a></li>
+      <!-- Removed the "Tracker" link from the navigation -->
       <li><a href="#testimonials" class="text-white hover:text-gray-300 transition-colors duration-200">Testimonials</a></li>
     </ul>
   </nav>
@@ -136,7 +155,9 @@
       AI is reshaping our world — right now. Don’t get left behind. Master tools like ChatGPT to take control, save time, and stay ahead in your life and work.
     </p>
     <a
-      href="#cta"
+      href="https://forms.gle/your-google-form-link"
+      target="_blank"
+      rel="noopener noreferrer"
       class="inline-block bg-white text-black font-bold px-10 py-4 text-xl rounded-full shadow-white shadow-2xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-3xl focus:outline-none focus:shadow-white focus:shadow-3xl"
       aria-label="Book Your Free Lesson"
     >
@@ -238,6 +259,25 @@
     </p>
   </section>
 
+  <!-- Section: Customer Tracker -->
+  <section
+    id="customer-tracker"
+    class="px-6 py-12 animate-fade-in-delay bg-gray-900"
+    aria-labelledby="tracker-header"
+  >
+    <h2 id="tracker-header" class="text-3xl font-bold mb-8 flex items-center justify-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1 mx-auto max-w-xs">
+      🎯 Customer Goal Tracker
+    </h2>
+    <div class="mb-8 max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
+      <p class="text-xl mb-4 text-gray-200">Our goal is to reach 50 customers in the next two months!</p>
+      <p class="text-3xl font-bold text-white mb-4" id="customerCountDisplay">0/50</p>
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="customerProgressBar" style="width: 0%;"></div>
+      </div>
+      <p class="text-lg text-gray-400 mt-4">Book your lesson to increase the count!</p>
+    </div>
+  </section>
+
   <!-- Section 5: Testimonials -->
   <section
     id="testimonials"
@@ -302,13 +342,26 @@
 </div>
 
 <script type="module">
-  // All Firebase imports and related code have been removed to resolve API key errors.
-  // The testimonial section is now entirely static.
-
   // Global references for modal elements, initialized as soon as possible
   let messageModal;
   let modalMessage;
   let closeModalBtn;
+
+  // Customer Tracker Variables
+  const MAX_CUSTOMERS = 50;
+  let currentCustomers = 0; // This value will be updated by you
+
+  // Function to update the customer tracker display and progress bar
+  function updateCustomerTrackerDisplay() {
+    const customerCountDisplay = document.getElementById('customerCountDisplay');
+    const customerProgressBar = document.getElementById('customerProgressBar');
+
+    if (customerCountDisplay && customerProgressBar) {
+      customerCountDisplay.textContent = `${currentCustomers}/${MAX_CUSTOMERS}`;
+      const progressPercentage = (currentCustomers / MAX_CUSTOMERS) * 100;
+      customerProgressBar.style.width = `${progressPercentage}%`;
+    }
+  }
   
   // Initialize elements and setup modal
   document.addEventListener('DOMContentLoaded', async () => {
@@ -379,8 +432,11 @@
     // Call this function on load to check for manually added testimonials
     displayStaticTestimonials();
 
-    // No Firebase initialization or testimonial submission/deletion logic here anymore.
-    // Testimonials will be added by modifying the HTML directly.
+    // Initial update of the customer tracker display
+    updateCustomerTrackerDisplay();
+
+    // Make updateCustomerTrackerDisplay globally accessible for manual updates
+    window.updateCustomerTrackerDisplay = updateCustomerTrackerDisplay;
   });
 </script>
 
