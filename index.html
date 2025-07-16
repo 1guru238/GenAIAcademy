@@ -1,196 +1,605 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Interactive Testimonials & Learning</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-    h1, h2 {
-      text-align: center;
-    }
-    /* Buttons styling */
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-      border: 1px solid #007BFF;
-      background-color: #007BFF;
-      color: white;
-      border-radius: 4px;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    /* Testimonials list */
-    #testimonials-list {
-      margin-top: 20px;
-      border-top: 1px solid #ccc;
-      padding-top: 10px;
-    }
-    .testimonial {
-      border: 1px solid #ddd;
-      background-color: #f9f9f9;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 4px;
-    }
-    /* Modal/form styling */
-    #testimonial-form-container {
-      display: none; /* hidden by default */
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      justify-content: center;
-      align-items: center;
-    }
-    #testimonial-form {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 400px;
-      width: 90%;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-    #testimonial-form textarea {
-      width: 100%;
-      height: 80px;
-      margin-bottom: 10px;
-      padding: 8px;
-      resize: vertical;
-      font-size: 14px;
-    }
-    #testimonial-form input[type="text"] {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
-    /* What You'll Learn section */
-    .learn-buttons {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .learn-content {
-      border: 1px solid #007BFF;
-      border-radius: 4px;
-      padding: 15px;
-      background-color: #e7f1ff;
-      min-height: 80px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Free Live GenAI Lesson | Book Now</title>
+<!-- Google Fonts: Poppins -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  /* Custom CSS for animations and Poppins font */
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  @keyframes fadeInDown {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeInUp {
+    from {opacity: 0; transform: translateY(20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  .animate-fade-in-down {
+    animation: fadeInDown 1s ease forwards;
+  }
+  .animate-fade-in-up {
+    animation: fadeInUp 1s ease forwards;
+  }
+  .animate-fade-in {
+    animation: fadeIn 1s ease forwards;
+  }
+  .animate-fade-in-up-delay {
+    animation: fadeInUp 1.2s ease forwards;
+  }
+  .animate-fade-in-delay {
+    animation: fadeIn 1.2s ease forwards;
+  }
+  .animate-fade-in-down-delay {
+    animation: fadeInDown 1.2s ease forwards;
+  }
+
+  /* Modal styles */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background-color: #1a1a1a;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    max-width: 90%;
+    width: 400px;
+  }
+  .modal-content button {
+    margin-top: 1rem;
+    background-color: #6366f1; /* Indigo-600 */
+    color: white;
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+  }
+  .modal-content button:hover {
+    background-color: #4f46e5; /* Indigo-700 */
+  }
+
+  /* Star rating styles */
+  .star-rating input[type="radio"] {
+    display: none;
+  }
+  .star-rating label {
+    font-size: 2rem;
+    color: #444; /* Default star color */
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: #ffc107; /* Gold on hover */
+  }
+  .star-rating input[type="radio"]:checked ~ label {
+    color: #ffc107; /* Gold when checked */
+  }
+  .star-rating label:active {
+    transform: scale(0.9);
+  }
+</style>
 </head>
-<body>
-  <h1>Welcome to Our Website</h1>
+<body class="min-h-screen bg-black text-white leading-relaxed flex flex-col">
 
-  <!-- What You'll Learn Section -->
-  <section>
-    <h2>What You'll Learn</h2>
-    <div class="learn-buttons">
-      <button data-content="html">HTML Basics</button>
-      <button data-content="css">CSS Styling</button>
-      <button data-content="js">JavaScript Fundamentals</button>
-    </div>
-    <div id="learn-content" class="learn-content">
-      Click a button above to learn more!
-    </div>
+<header class="bg-gray-900 p-4 flex justify-between items-center sticky top-0 z-50 shadow-md shadow-white/10">
+  <div class="text-xl font-bold text-white px-4">GenAI Academy</div>
+  <nav class="flex-grow flex justify-center">
+    <ul class="flex space-x-6 md:space-x-8 lg:space-x-12">
+      <li><a href="#why-program" class="text-white hover:text-gray-300 transition-colors duration-200">Why Us</a></li>
+      <li><a href="#what-learn" class="text-white hover:text-gray-300 transition-colors duration-200">What You'll Learn</a></li>
+      <li><a href="#about-me" class="text-white hover:text-gray-300 transition-colors duration-200">About Me</a></li>
+      <li><a href="#testimonials" class="text-white hover:text-gray-300 transition-colors duration-200">Testimonials</a></li>
+    </ul>
+  </nav>
+  <!-- Removed the "Book Now" button from the header -->
+</header>
+
+<main class="container mx-auto px-6 py-8 md:px-4 md:py-10">
+
+  <!-- Section 1: Hero -->
+  <section
+    id="hero"
+    class="text-center pt-24 pb-16 animate-fade-in-down"
+    role="banner"
+    aria-label="Hero section with main headline"
+  >
+    <h1 class="text-4xl md:text-5xl font-bold tracking-wider mb-2">
+      🚀 Don’t Get Left Behind in the AI Era
+    </h1>
+    <h2 class="font-bold text-xl md:text-2xl mb-6 text-white">
+      Learn how to use AI the smart way — in just 30 minutes. No experience needed.
+    </h2>
+    <p class="text-base md:text-lg max-w-3xl mx-auto mb-10 text-gray-200">
+      AI is reshaping our world — right now. Don’t get left behind. Master tools like ChatGPT to take control, save time, and stay ahead in your life and work.
+    </p>
+    <a
+      href="#cta"
+      class="inline-block bg-white text-black font-bold px-10 py-4 text-xl rounded-full shadow-white shadow-2xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-3xl focus:outline-none focus:shadow-white focus:shadow-3xl"
+      aria-label="Book Your Free Lesson"
+    >
+      Book Your Free Lesson Now
+    </a>
   </section>
 
-  <!-- Testimonials Section -->
-  <section>
-    <h2>Testimonials</h2>
-    <button id="add-testimonial-btn">Add Testimonial</button>
-    <div id="testimonials-list">
-      <!-- Testimonials will appear here -->
-    </div>
-  </section>
-
-  <!-- Testimonial Form Modal -->
-  <div id="testimonial-form-container">
-    <form id="testimonial-form">
-      <h3>Add Your Testimonial</h3>
-      <input type="text" id="name" placeholder="Your Name" required />
-      <textarea id="testimonial-text" placeholder="Your Testimonial" required></textarea>
-      <div style="text-align: right;">
-        <button type="button" id="cancel-btn">Cancel</button>
-        <button type="submit">Submit</button>
+  <!-- Section 2: Why This Program Is Better -->
+  <section
+    id="why-program"
+    class="bg-gray-900 px-6 py-12 animate-fade-in-up"
+    aria-labelledby="why-header"
+  >
+    <h2 id="why-header" class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+      ✨ Why This Program Is Better
+    </h2>
+    <div class="flex flex-col md:flex-row md:justify-center md:gap-12 lg:gap-24 max-w-4xl mx-auto">
+      <div class="md:w-1/2 mb-8 md:mb-0">
+        <p class="text-lg mb-6 text-red-400">
+          <strong class="text-red-400 capitalize">Most people try:</strong>
+        </p>
+        <ul class="list-disc list-inside text-lg text-red-400 leading-relaxed">
+          <li class="mb-3">YouTube videos — but they’re overwhelming, scattered, and you’re left on your own.</li>
+          <li class="mb-3">Online courses — but they’re often expensive, long, and filled with complex terms.</li>
+        </ul>
       </div>
-    </form>
-  </div>
+      <div class="md:w-1/2">
+        <p class="text-lg mb-6 text-green-400">
+          <strong class="text-green-400 capitalize">This program offers:</strong>
+        </p>
+        <ul class="list-disc list-inside text-lg text-green-400 leading-relaxed">
+          <li class="mb-3">It's live, interactive, and free.</li>
+          <li class="mb-3">You’ll learn by doing, not just watching.</li>
+          <li class="mb-3">You get everything you need — and nothing you don’t — in 30 minutes.</li>
+          <li class="mb-3">It’s tailored for real-world tasks, not techy theory.</li>
+          <li class="mb-3">In one short session, you’ll go from confused to confident.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  <script>
-    // What You'll Learn content data
-    const learnData = {
-      html: "Learn the basics of HTML: tags, structure, and how to build webpages.",
-      css: "Understand CSS to style your webpages: colors, layouts, and responsive design.",
-      js: "Dive into JavaScript to make your sites interactive and dynamic."
+  <!-- Section 3: What You’ll Learn -->
+  <section
+    id="what-learn"
+    class="px-6 py-12 animate-fade-in"
+    aria-labelledby="learn-header"
+  >
+    <h2 id="learn-header" class="text-3xl font-bold mb-8 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+      📚 What You’ll Learn
+    </h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">🧠</span>
+        <strong class="font-semibold text-xl block mb-1">What is GenAI?</strong>
+        <span class="text-gray-400 text-base">Discover how tools like ChatGPT are already reshaping the world.</span>
+        <button onclick="generateContentForLesson('Provide a very concise, one-sentence explanation of what Generative AI (GenAI) is, suitable for a beginner. Do not include any introductory or concluding phrases.', 'genAIExplanationDisplay', 'genAILoadingMessage')" class="mt-4 bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Explain GenAI
+        </button>
+        <div id="genAIExplanationDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="genAILoadingMessage" class="mt-2 text-purple-400 text-sm hidden">Generating explanation...</div>
+      </div>
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">⚡</span>
+        <strong class="font-semibold text-xl block mb-1">Prompt Engineering</strong>
+        <span class="text-gray-400 text-base">Learn how to talk to AI — and get the results you want.</span>
+        <button onclick="generateContentForLesson('Generate a creative, concise, and inspiring prompt idea for a large language model like ChatGPT, focusing on a practical, everyday use case. The output should be just the prompt idea, without any introductory or concluding remarks. For example: \'Write a short story about a talking dog who becomes a detective.\'', 'generatedPromptDisplay', 'loadingMessage')" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Get a Prompt Idea
+        </button>
+        <div id="generatedPromptDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="loadingMessage" class="mt-2 text-blue-400 text-sm hidden">Generating...</div>
+      </div>
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">🧑‍💻</span>
+        <strong class="font-semibold text-xl block mb-1">Live Demo</strong>
+        <span class="text-gray-400 text-base">Try it for yourself in a hands-on example.</span>
+        <button onclick="generateContentForLesson('Describe a concise, practical, real-life scenario where a beginner could apply basic GenAI knowledge. Focus on a single, actionable situation, like \'Draft an email to a colleague\' or \'Summarize a long article\'. The output should be just the scenario, without any introductory or concluding remarks.', 'liveDemoScenarioDisplay', 'liveDemoLoadingMessage')" class="mt-4 bg-yellow-600 text-white px-5 py-2 rounded-full hover:bg-yellow-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Get Scenario
+        </button>
+        <div id="liveDemoScenarioDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="liveDemoLoadingMessage" class="mt-2 text-yellow-400 text-sm hidden">Generating scenario...</div>
+      </div>
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">🏢</span>
+        <strong class="font-semibold text-xl block mb-1">AI at Work</strong>
+        <span class="text-gray-400 text-base">See how ChatGPT can boost your productivity and save hours.</span>
+        <button onclick="generateContentForLesson('Provide a brief, practical example of how a large language model like ChatGPT can enhance productivity or save time in a typical office work scenario. Be concise, e.g., \'Use AI to quickly generate meeting minutes from a transcript.\'', 'aiAtWorkExampleDisplay', 'aiAtWorkLoadingMessage')" class="mt-4 bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Get Example
+        </button>
+        <div id="aiAtWorkExampleDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="aiAtWorkLoadingMessage" class="mt-2 text-green-400 text-sm hidden">Generating example...</div>
+      </div>
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">🛡️</span>
+        <strong class="font-semibold text-xl block mb-1">Cautions & Awareness</strong>
+        <span class="text-gray-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
+        <button onclick="generateContentForLesson('In one concise sentence, explain a key caution or ethical consideration when using Generative AI tools to avoid misinformation or over-reliance. For example: \'Always fact-check AI-generated information.\'', 'cautionsAwarenessDisplay', 'cautionsAwarenessLoadingMessage')" class="mt-4 bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Get Caution
+        </button>
+        <div id="cautionsAwarenessDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="cautionsAwarenessLoadingMessage" class="mt-2 text-red-400 text-sm hidden">Generating caution...</div>
+      </div>
+      <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        <span class="text-5xl mb-3">🎮</span>
+        <strong class="font-semibold text-xl block mb-1">Game Idea</strong>
+        <span class="text-gray-400 text-base">Have some fun with AI with an AI related game to reward you for your great efforts!</span>
+        <button onclick="generateContentForLesson('Suggest a very short, simple, interactive game idea that could be played using a large language model (like ChatGPT) to reinforce learning about AI. Be concise and focus on the game concept, e.g., \'AI Storyteller: Players take turns adding sentences to a story generated by AI.\'', 'funGameIdeaDisplay', 'funGameLoadingMessage')" class="mt-4 bg-pink-600 text-white px-5 py-2 rounded-full hover:bg-pink-700 transition-colors duration-200 text-sm font-semibold shadow-md">
+          ✨ Get Game Idea
+        </button>
+        <div id="funGameIdeaDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
+        <div id="funGameLoadingMessage" class="mt-2 text-pink-400 text-sm hidden">Generating idea...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: About Me -->
+  <section
+    id="about-me"
+    class="bg-gray-900 px-6 py-12 animate-fade-in-up-delay"
+    aria-labelledby="about-header"
+  >
+    <h2 id="about-header" class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+      👋 About Me
+    </h2>
+    <p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed mb-4">
+      Hi, I’m Guru — a high school student with a passion for AI and helping others learn how to use it. Over the past few years, I’ve used AI tools like ChatGPT to build real-world projects including websites, apps, presentations, and even prototypes for important projects such as the future of education.
+    </p>
+    <p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed">
+      But more importantly, I’ve seen just how quickly AI is changing the world — and how many adults feel left behind. That’s why I created this program: to make learning AI simple, useful, and comfortable for anyone — no matter your background or tech skills. I’ve spent countless hours testing what works, what doesn’t, and how to get the most out of tools like ChatGPT. Now, I want to pass that on to you.
+    </p>
+  </section>
+
+  <!-- Section 5: Testimonials -->
+  <section
+    id="testimonials"
+    class="px-6 py-12 max-w-3xl mx-auto min-h-20 border-t border-b border-gray-800 animate-fade-in-delay"
+    aria-live="polite"
+    aria-label="Testimonials from live attendees"
+  >
+    <h2 class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+      💬 Testimonials
+    </h2>
+    <div id="noTestimonialsMessage" class="text-gray-600 italic text-center text-lg mb-8">
+      Testimonials to be added soon, be the first to be here by booking now!
+    </div>
+
+    <div id="testimonialForm" class="bg-gray-800 p-6 rounded-lg shadow-lg mb-8">
+      <h3 class="text-xl font-semibold mb-4 text-white">Share Your Experience!</h3>
+      <input type="text" id="reviewerName" placeholder="Your Name" class="w-full p-3 mb-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500" />
+      
+      <div class="mb-4 text-center">
+        <label for="rating" class="block text-white text-lg mb-2">Rate Your Experience:</label>
+        <div class="star-rating inline-flex flex-row-reverse justify-center">
+          <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 stars">★</label>
+          <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars">★</label>
+          <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars">★</label>
+          <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars">★</label>
+          <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">★</label>
+        </div>
+      </div>
+
+      <textarea id="testimonialText" placeholder="Your testimonial here..." rows="4" class="w-full p-3 mb-4 rounded-md bg-gray-700 text-white border border-gray-600 focus:outline-none focus:border-blue-500"></textarea>
+      <button id="submitTestimonialBtn" class="bg-indigo-600 text-white px-6 py-3 rounded-full hover:bg-indigo-700 transition-colors duration-200 font-semibold shadow-md">
+        Submit Testimonial
+      </button>
+      <div id="testimonialFormLoading" class="mt-2 text-indigo-400 text-sm hidden">Submitting...</div>
+      <div id="testimonialFormMessage" class="mt-2 text-sm"></div>
+    </div>
+
+    <div id="testimonialsList" class="space-y-6">
+      <!-- Testimonials will be loaded here -->
+    </div>
+  </section>
+
+  <!-- Section 6: Call to Action -->
+  <section
+    id="cta"
+    class="text-center pt-16 pb-24 animate-fade-in-down-delay"
+    aria-labelledby="cta-header"
+  >
+    <h2 id="cta-header" class="text-3xl font-bold mb-4 flex items-center justify-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1 mx-auto max-w-xs">
+      🗓️ Join Me On Your New Journey Please
+    </h2>
+    <p class="text-xl mb-8 max-w-3xl mx-auto text-gray-200">
+      You’ve got nothing to lose — and everything to gain.<br />
+      <em>“If you found it helpful, you can donate any amount you like. If not — it was still free.”</em>
+    </p>
+    <a
+      href="https://forms.gle/your-google-form-link"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-block bg-white text-black font-bold px-12 py-4 text-2xl rounded-full shadow-white shadow-3xl transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-4xl focus:outline-none focus:shadow-white focus:shadow-4xl"
+      aria-label="Book Your Free Lesson Now"
+    >
+      Book Your Free Lesson Now
+    </a>
+  </section>
+
+</main>
+
+<!-- Modal for messages -->
+<div id="messageModal" class="modal-overlay hidden">
+  <div class="modal-content">
+    <p id="modalMessage" class="text-white text-lg"></p>
+    <button id="closeModalBtn">OK</button>
+  </div>
+</div>
+
+<script type="module">
+  // Firebase imports
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // Firebase initialization (global for access within event listeners)
+  let app, db, auth;
+  let currentUserId = null;
+  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+  // IMPORTANT: For GitHub deployment, replace this with your actual Firebase config.
+  // Example: const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", ... };
+  const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+
+  // Initialize Firebase and set up auth listener
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      app = initializeApp(firebaseConfig);
+      db = getFirestore(app);
+      auth = getAuth(app);
+      console.log("Firebase app initialized.");
+
+      onAuthStateChanged(auth, async (user) => {
+        if (user) {
+          currentUserId = user.uid;
+          console.log("User authenticated:", currentUserId);
+          loadTestimonials(); // Load testimonials once authenticated
+        } else {
+          // Sign in anonymously if no user is logged in
+          try {
+            console.log("Attempting anonymous sign-in...");
+            if (typeof __initial_auth_token !== 'undefined') {
+              await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+              await signInAnonymously(auth);
+            }
+            console.log("Anonymous sign-in successful or token sign-in initiated.");
+          } catch (error) {
+            console.error("Error during anonymous sign-in:", error);
+            showModal('Authentication failed. Please try refreshing the page.');
+          }
+        }
+      });
+    } catch (error) {
+      console.error("Error initializing Firebase:", error);
+      showModal('Failed to initialize Firebase. Please try refreshing the page.');
+    }
+
+    // Get elements for Testimonial Form
+    const submitTestimonialBtn = document.getElementById('submitTestimonialBtn');
+    const reviewerNameInput = document.getElementById('reviewerName');
+    const testimonialTextInput = document.getElementById('testimonialText');
+    const testimonialFormLoading = document.getElementById('testimonialFormLoading');
+    const testimonialFormMessage = document.getElementById('testimonialFormMessage');
+    const testimonialsList = document.getElementById('testimonialsList');
+    const noTestimonialsMessage = document.getElementById('noTestimonialsMessage');
+
+    // Modal elements
+    const messageModal = document.getElementById('messageModal');
+    const modalMessage = document.getElementById('modalMessage');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    // Function to show custom modal
+    function showModal(message) {
+      modalMessage.textContent = message;
+      messageModal.classList.remove('hidden');
+    }
+
+    // Close modal event listener
+    closeModalBtn.addEventListener('click', () => {
+      messageModal.classList.add('hidden');
+    });
+
+    // Function to call Gemini API and display content for lesson buttons
+    async function generateContentForLesson(prompt, displayElementId, loadingElementId) {
+      const displayElement = document.getElementById(displayElementId);
+      const loadingElement = document.getElementById(loadingElementId);
+
+      if (!displayElement || !loadingElement) {
+        console.error(`Error: Could not find display element with ID ${displayElementId} or loading element with ID ${loadingElementId}.`);
+        return;
+      }
+
+      displayElement.textContent = ''; // Clear previous content
+      loadingElement.classList.remove('hidden'); // Show loading message
+      console.log(`Generating content for: ${prompt}`);
+
+      try {
+        let chatHistory = [];
+        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+
+        const payload = { contents: chatHistory };
+        const apiKey = ""; // Canvas will automatically provide the API key at runtime
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        console.log("Gemini API response:", result);
+
+        if (result.candidates && result.candidates.length > 0 &&
+            result.candidates[0].content && result.candidates[0].content.parts &&
+            result.candidates[0].content.parts.length > 0) {
+          const text = result.candidates[0].content.parts[0].text;
+          displayElement.textContent = text;
+        } else {
+          displayElement.textContent = 'Could not generate content. Please try again.';
+          console.error('Unexpected API response structure:', result);
+        }
+      } catch (error) {
+        displayElement.textContent = 'Error generating content. Please try again later.';
+        console.error('Error calling Gemini API:', error);
+      } finally {
+        loadingElement.classList.add('hidden'); // Hide loading message
+      }
+    }
+
+    // Function to delete a testimonial
+    window.deleteTestimonial = async function(docId, userIdOfTestimonial) {
+      if (!db || !currentUserId) {
+        showModal('Authentication not ready. Please try again.');
+        console.log("Delete failed: Firestore not initialized or user not authenticated.");
+        return;
+      }
+
+      // Optional: Add logic here to check if currentUserId is authorized to delete this specific testimonial.
+      // For this example, we'll allow any authenticated user to delete.
+      // In a real app, you might check: if (currentUserId !== userIdOfTestimonial) { showModal('You can only delete your own testimonials.'); return; }
+
+      showModal('Are you sure you want to delete this testimonial?');
+      const confirmDeleteBtn = document.createElement('button');
+      confirmDeleteBtn.textContent = 'Yes, Delete';
+      confirmDeleteBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md mr-2';
+      confirmDeleteBtn.onclick = async () => {
+        try {
+          await deleteDoc(doc(db, `artifacts/${appId}/public/data/testimonials`, docId));
+          showModal('Testimonial deleted successfully!');
+          console.log(`Testimonial with ID ${docId} deleted.`);
+        } catch (e) {
+          console.error("Error deleting document: ", e);
+          showModal('Error deleting testimonial. Please try again.');
+        }
+      };
+
+      const cancelDeleteBtn = document.createElement('button');
+      cancelDeleteBtn.textContent = 'Cancel';
+      cancelDeleteBtn.className = 'bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md';
+      cancelDeleteBtn.onclick = () => messageModal.classList.add('hidden');
+
+      // Clear previous modal content and add new buttons
+      modalMessage.textContent = 'Are you sure you want to delete this testimonial?';
+      const modalContent = messageModal.querySelector('.modal-content');
+      const existingOkButton = modalContent.querySelector('#closeModalBtn');
+      if (existingOkButton) existingOkButton.remove(); // Remove the default OK button
+
+      modalContent.appendChild(confirmDeleteBtn);
+      modalContent.appendChild(cancelDeleteBtn);
+      messageModal.classList.remove('hidden');
     };
 
-    // Elements
-    const learnButtons = document.querySelectorAll('.learn-buttons button');
-    const learnContent = document.getElementById('learn-content');
-    const addTestimonialBtn = document.getElementById('add-testimonial-btn');
-    const testimonialFormContainer = document.getElementById('testimonial-form-container');
-    const testimonialForm = document.getElementById('testimonial-form');
-    const testimonialsList = document.getElementById('testimonials-list');
-    const cancelBtn = document.getElementById('cancel-btn');
 
-    // What You'll Learn button click event
-    learnButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const key = button.getAttribute('data-content');
-        learnContent.textContent = learnData[key] || "Content not found.";
+    // Function to load testimonials from Firestore
+    function loadTestimonials() {
+      if (!db || !currentUserId) {
+        console.log("Firestore not initialized or user not authenticated yet. Cannot load testimonials.");
+        return;
+      }
+      console.log("Loading testimonials for user:", currentUserId);
+
+      const testimonialsRef = collection(db, `artifacts/${appId}/public/data/testimonials`);
+      const q = query(testimonialsRef, orderBy('timestamp', 'desc')); // Order by timestamp
+
+      onSnapshot(q, (snapshot) => {
+        console.log("Received testimonial snapshot. Number of docs:", snapshot.docs.length);
+        testimonialsList.innerHTML = ''; // Clear existing testimonials
+        if (snapshot.empty) {
+          noTestimonialsMessage.classList.remove('hidden');
+          console.log("No testimonials found. Showing 'no testimonials' message.");
+        } else {
+          noTestimonialsMessage.classList.add('hidden'); // Hide the "no testimonials" message
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            console.log("Adding testimonial:", data);
+            const ratingStars = '★'.repeat(data.rating || 0) + '☆'.repeat(5 - (data.rating || 0)); // Display stars
+            const testimonialDiv = document.createElement('div');
+            testimonialDiv.className = 'bg-gray-700 p-4 rounded-lg shadow-md mb-4';
+            testimonialDiv.innerHTML = `
+              <div class="flex justify-between items-center mb-2">
+                <span class="text-yellow-400 text-xl">${ratingStars}</span>
+                <p class="text-gray-400 text-sm">- ${data.reviewerName || 'Anonymous'}</p>
+                <button onclick="deleteTestimonial('${doc.id}', '${data.userId}')" class="text-red-400 hover:text-red-600 text-sm ml-4">Delete</button>
+              </div>
+              <p class="text-gray-200 italic">"${data.testimonialText}"</p>
+            `;
+            testimonialsList.appendChild(testimonialDiv);
+          });
+        }
+      }, (error) => {
+        console.error("Error fetching testimonials:", error);
+        showModal('Error loading testimonials. Please try again later.');
       });
-    });
+    }
 
-    // Show the testimonial form modal
-    addTestimonialBtn.addEventListener('click', () => {
-      testimonialFormContainer.style.display = 'flex';
-    });
+    // Event listener for submitting a testimonial
+    if (submitTestimonialBtn) {
+      submitTestimonialBtn.addEventListener('click', async () => {
+        console.log("Submit Testimonial button clicked.");
+        const reviewerName = reviewerNameInput.value.trim();
+        const testimonialText = testimonialTextInput.value.trim();
+        const selectedRating = document.querySelector('input[name="rating"]:checked');
+        const rating = selectedRating ? parseInt(selectedRating.value) : 0;
 
-    // Hide the testimonial form modal
-    cancelBtn.addEventListener('click', () => {
-      testimonialFormContainer.style.display = 'none';
-      testimonialForm.reset();
-    });
+        if (!reviewerName || !testimonialText || rating === 0) {
+          showModal('Please enter your name, testimonial, and select a rating.');
+          console.log("Validation failed: Missing name, text, or rating.");
+          return;
+        }
 
-    // Handle testimonial form submission
-    testimonialForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+        if (!currentUserId) {
+          showModal('Authentication in progress. Please wait a moment and try again.');
+          console.log("Authentication not ready. currentUserId is null.");
+          return;
+        }
 
-      const name = document.getElementById('name').value.trim();
-      const text = document.getElementById('testimonial-text').value.trim();
+        testimonialFormLoading.classList.remove('hidden');
+        testimonialFormMessage.textContent = '';
+        console.log("Attempting to submit testimonial to Firestore...");
 
-      if(name && text) {
-        // Create testimonial div
-        const testimonialDiv = document.createElement('div');
-        testimonialDiv.className = 'testimonial';
-        testimonialDiv.innerHTML = `<strong>${name}</strong><p>${text}</p>`;
+        try {
+          await addDoc(collection(db, `artifacts/${appId}/public/data/testimonials`), {
+            reviewerName: reviewerName,
+            testimonialText: testimonialText,
+            rating: rating,
+            userId: currentUserId,
+            timestamp: serverTimestamp()
+          });
+          reviewerNameInput.value = '';
+          testimonialTextInput.value = '';
+          // Uncheck all radio buttons after submission
+          document.querySelectorAll('input[name="rating"]').forEach(radio => radio.checked = false);
+          showModal('Testimonial submitted successfully!');
+          console.log("Testimonial submitted successfully!");
+        } catch (e) {
+          console.error("Error adding document to Firestore: ", e);
+          showModal('Error submitting testimonial. Please try again.');
+        } finally {
+          testimonialFormLoading.classList.add('hidden');
+        }
+      });
+    }
+  });
+</script>
 
-        // Append to testimonials list
-        testimonialsList.appendChild(testimonialDiv);
-
-        // Hide form and reset
-        testimonialFormContainer.style.display = 'none';
-        testimonialForm.reset();
-      } else {
-        alert('Please fill in all fields.');
-      }
-    });
-
-    // Optional: close modal if clicking outside the form
-    testimonialFormContainer.addEventListener('click', (e) => {
-      if (e.target === testimonialFormContainer) {
-        testimonialFormContainer.style.display = 'none';
-        testimonialForm.reset();
-      }
-    });
-  </script>
 </body>
 </html>
