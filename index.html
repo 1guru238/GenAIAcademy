@@ -320,17 +320,36 @@
   import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, serverTimestamp, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+  // --- IMPORTANT: REPLACE THESE WITH YOUR ACTUAL FIREBASE CONFIGURATION ---
+  // You can find this in your Firebase project settings -> "Add app" -> "Web"
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY", // Example: "AIzaSyC..."
+    authDomain: "YOUR_PROJECT_ID.firebaseapp.com", // Example: "my-project-12345.firebaseapp.com"
+    projectId: "YOUR_PROJECT_ID", // Example: "my-project-12345"
+    storageBucket: "YOUR_PROJECT_ID.appspot.com", // Example: "my-project-12345.appspot.com"
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // Example: "1234567890"
+    appId: "YOUR_APP_ID" // Example: "1:234567890:web:abcdef1234567890"
+  };
+
+  // Use your actual Firebase Project ID here. It's part of your firebaseConfig.
+  const appId = firebaseConfig.projectId; // This will now use the projectId from your config
+  // --- END OF IMPORTANT CONFIGURATION ---
+
+
   // Firebase initialization (global for access within event listeners)
   let app, db, auth;
   let currentUserId = null;
-  const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-  // IMPORTANT: For GitHub deployment, replace this with your actual Firebase config.
-  // Example: const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", ... };
-  const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
-
+  
   // Initialize Firebase and set up auth listener
   document.addEventListener('DOMContentLoaded', async () => {
     try {
+      // Check if firebaseConfig has been replaced with actual values
+      if (firebaseConfig.apiKey === "YOUR_API_KEY" || firebaseConfig.projectId === "YOUR_PROJECT_ID") {
+        showModal("Firebase configuration is missing! Please replace the placeholder values in the script with your actual Firebase project details for testimonials to work on your published site.");
+        console.error("Firebase configuration placeholders detected. Testimonials will not work on published site until updated.");
+        return; // Stop execution if config is not set
+      }
+
       app = initializeApp(firebaseConfig);
       db = getFirestore(app);
       auth = getAuth(app);
@@ -345,21 +364,18 @@
           // Sign in anonymously if no user is logged in
           try {
             console.log("Attempting anonymous sign-in...");
-            if (typeof __initial_auth_token !== 'undefined') {
-              await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-              await signInAnonymously(auth);
-            }
-            console.log("Anonymous sign-in successful or token sign-in initiated.");
+            // __initial_auth_token is only available in Canvas, so we directly use signInAnonymously for GitHub
+            await signInAnonymously(auth);
+            console.log("Anonymous sign-in successful.");
           } catch (error) {
             console.error("Error during anonymous sign-in:", error);
-            showModal('Authentication failed. Please try refreshing the page.');
+            showModal('Authentication failed. Please check your Firebase setup and try refreshing the page.');
           }
         }
       });
     } catch (error) {
       console.error("Error initializing Firebase:", error);
-      showModal('Failed to initialize Firebase. Please try refreshing the page.');
+      showModal('Failed to initialize Firebase. Please ensure your Firebase config is correct and try refreshing the page.');
     }
 
     // Get elements for Testimonial Form
@@ -379,13 +395,36 @@
     // Function to show custom modal
     function showModal(message) {
       modalMessage.textContent = message;
+      // Ensure only one OK button exists
+      let existingOkButton = messageModal.querySelector('#closeModalBtn');
+      if (!existingOkButton) {
+        existingOkButton = document.createElement('button');
+        existingOkButton.id = 'closeModalBtn';
+        existingOkButton.textContent = 'OK';
+        existingOkButton.className = 'mt-4 bg-indigo-600 text-white px-5 py-2 rounded-full hover:bg-indigo-700 transition-colors duration-200';
+        existingOkButton.addEventListener('click', () => {
+          messageModal.classList.add('hidden');
+          // Re-add the original OK button if it was removed for delete confirmation
+          const modalContent = messageModal.querySelector('.modal-content');
+          const confirmBtn = modalContent.querySelector('.bg-red-600');
+          const cancelBtn = modalContent.querySelector('.bg-gray-500');
+          if (confirmBtn) confirmBtn.remove();
+          if (cancelBtn) cancelBtn.remove();
+          if (!modalContent.querySelector('#closeModalBtn')) {
+              modalContent.appendChild(existingOkButton);
+          }
+        });
+        messageModal.querySelector('.modal-content').appendChild(existingOkButton);
+      } else {
+         // If OK button exists, ensure other buttons from delete confirmation are removed
+         const modalContent = messageModal.querySelector('.modal-content');
+         const confirmBtn = modalContent.querySelector('.bg-red-600');
+         const cancelBtn = modalContent.querySelector('.bg-gray-500');
+         if (confirmBtn) confirmBtn.remove();
+         if (cancelBtn) cancelBtn.remove();
+      }
       messageModal.classList.remove('hidden');
     }
-
-    // Close modal event listener
-    closeModalBtn.addEventListener('click', () => {
-      messageModal.classList.add('hidden');
-    });
 
     // Function to delete a testimonial
     window.deleteTestimonial = async function(docId, userIdOfTestimonial) {
@@ -395,11 +434,13 @@
         return;
       }
 
-      // Optional: Add logic here to check if currentUserId is authorized to delete this specific testimonial.
-      // For this example, we'll allow any authenticated user to delete.
-      // In a real app, you might check: if (currentUserId !== userIdOfTestimonial) { showModal('You can only delete your own testimonials.'); return; }
+      // Temporarily remove default OK button to add Yes/No for confirmation
+      const existingOkButton = messageModal.querySelector('#closeModalBtn');
+      if (existingOkButton) existingOkButton.remove();
 
-      showModal('Are you sure you want to delete this testimonial?');
+      modalMessage.textContent = 'Are you sure you want to delete this testimonial?';
+      const modalContent = messageModal.querySelector('.modal-content');
+
       const confirmDeleteBtn = document.createElement('button');
       confirmDeleteBtn.textContent = 'Yes, Delete';
       confirmDeleteBtn.className = 'bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md mr-2';
@@ -417,13 +458,13 @@
       const cancelDeleteBtn = document.createElement('button');
       cancelDeleteBtn.textContent = 'Cancel';
       cancelDeleteBtn.className = 'bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md';
-      cancelDeleteBtn.onclick = () => messageModal.classList.add('hidden');
-
-      // Clear previous modal content and add new buttons
-      modalMessage.textContent = 'Are you sure you want to delete this testimonial?';
-      const modalContent = messageModal.querySelector('.modal-content');
-      const existingOkButton = modalContent.querySelector('#closeModalBtn');
-      if (existingOkButton) existingOkButton.remove(); // Remove the default OK button
+      cancelDeleteBtn.onclick = () => showModal('Operation cancelled.'); // Re-show modal with "OK"
+      
+      // Clear previous buttons before adding new ones
+      const oldConfirmBtn = modalContent.querySelector('.bg-red-600');
+      const oldCancelBtn = modalContent.querySelector('.bg-gray-500');
+      if (oldConfirmBtn) oldConfirmBtn.remove();
+      if (oldCancelBtn) oldCancelBtn.remove();
 
       modalContent.appendChild(confirmDeleteBtn);
       modalContent.appendChild(cancelDeleteBtn);
