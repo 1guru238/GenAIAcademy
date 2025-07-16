@@ -118,47 +118,63 @@
     border-radius: 9999px;
     transition: width 0.5s ease-in-out; /* Smooth transition for width change */
   }
+
+  /* Custom header background with subtle SVG pattern */
+  .header-bg {
+    background-color: #1a1a1a; /* Dark gray */
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M9 10L6 10 6 6 9 6 9 3 12 3 12 6 15 6 15 10 12 10 12 13 9 13z'/%3E%3C/g%3E%3C/svg%3E");
+  }
 </style>
 </head>
 <body class="min-h-screen bg-black text-white leading-relaxed flex flex-col">
 
-<header class="bg-gray-900 p-4 flex justify-between items-center sticky top-0 z-50 shadow-md shadow-white/10">
-  <div class="text-xl font-bold text-white px-4">GenAI Academy</div>
+<header class="header-bg p-4 flex justify-between items-center sticky top-0 z-50 shadow-md shadow-white/10">
+  <div class="text-2xl md:text-3xl font-bold text-white px-4">GenAI Academy</div>
   <nav class="flex-grow flex justify-center">
-    <ul class="flex space-x-6 md:space-x-8 lg:space-x-12">
-      <li><a href="#why-program" class="text-white hover:text-gray-300 transition-colors duration-200">Why Us</a></li>
-      <li><a href="#what-learn" class="text-white hover:text-gray-300 transition-colors duration-200">What You'll Learn</a></li>
-      <li><a href="#about-me" class="text-white hover:text-gray-300 transition-colors duration-200">About Me</a></li>
-      <!-- Removed the "Tracker" link from the navigation -->
-      <li><a href="#testimonials" class="text-white hover:text-gray-300 transition-colors duration-200">Testimonials</a></li>
+    <ul class="flex space-x-4 md:space-x-8 lg:space-x-12">
+      <li><a href="#why-program" class="text-white hover:text-gray-300 transition-colors duration-200 text-base md:text-lg">Why Us</a></li>
+      <li><a href="#what-learn" class="text-white hover:text-gray-300 transition-colors duration-200 text-base md:text-lg">What You'll Learn</a></li>
+      <li><a href="#about-me" class="text-white hover:text-gray-300 transition-colors duration-200 text-base md:text-lg">About Me</a></li>
+      <li><a href="#testimonials" class="text-white hover:text-gray-300 transition-colors duration-200 text-base md:text-lg">Testimonials</a></li>
+      <!-- Added Book Now button to header nav -->
+      <li>
+        <a
+          href="https://docs.google.com/forms/d/1tOYDdRt6eIjIyqho7z_pKd_yO-_yMG0yXtvj29yRcPM/edit"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-block bg-white text-black font-bold px-4 py-2 text-sm md:text-base rounded-full shadow-white shadow-md transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-lg focus:outline-none focus:shadow-white focus:shadow-lg"
+          aria-label="Book Your Free Lesson Now"
+        >
+          Book Now
+        </a>
+      </li>
     </ul>
   </nav>
-  <!-- Removed the "Book Now" button from the header -->
 </header>
 
-<main class="container mx-auto px-6 py-8 md:px-4 md:py-10">
+<main class="container mx-auto px-4 py-6 md:px-8 md:py-12">
 
   <!-- Section 1: Hero -->
   <section
     id="hero"
-    class="text-center pt-24 pb-16 animate-fade-in-down"
+    class="text-center py-16 md:py-24 animate-fade-in-down"
     role="banner"
     aria-label="Hero section with main headline"
   >
-    <h1 class="text-4xl md:text-5xl font-bold tracking-wider mb-2">
+    <h1 class="text-4xl md:text-6xl font-bold tracking-wider mb-4 leading-tight">
       🚀 Don’t Get Left Behind in the AI Era
     </h1>
-    <h2 class="font-bold text-xl md:text-2xl mb-6 text-white">
+    <h2 class="font-bold text-xl md:text-3xl mb-8 text-white">
       Learn how to use AI the smart way — in just 30 minutes. No experience needed.
     </h2>
-    <p class="text-base md:text-lg max-w-3xl mx-auto mb-10 text-gray-200">
+    <p class="text-base md:text-lg max-w-3xl mx-auto mb-12 text-gray-200 leading-relaxed">
       AI is reshaping our world — right now. Don’t get left behind. Master tools like ChatGPT to take control, save time, and stay ahead in your life and work.
     </p>
     <a
-      href="https://forms.gle/your-google-form-link"
+      href="https://docs.google.com/forms/d/1tOYDdRt6eIjIyqho7z_pKd_yO-_yMG0yXtvj29yRcPM/edit"
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-block bg-white text-black font-bold px-10 py-4 text-xl rounded-full shadow-white shadow-2xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-3xl focus:outline-none focus:shadow-white focus:shadow-3xl"
+      class="inline-block bg-white text-black font-bold px-12 py-5 text-xl md:text-2xl rounded-full shadow-white shadow-2xl cursor-pointer transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-3xl focus:outline-none focus:shadow-white focus:shadow-3xl"
       aria-label="Book Your Free Lesson"
     >
       Book Your Free Lesson Now
@@ -168,27 +184,27 @@
   <!-- Section 2: Why This Program Is Better -->
   <section
     id="why-program"
-    class="bg-gray-900 px-6 py-12 animate-fade-in-up"
+    class="bg-gray-900 px-6 py-10 md:px-8 md:py-16 my-8 rounded-lg animate-fade-in-up"
     aria-labelledby="why-header"
   >
-    <h2 id="why-header" class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+    <h2 id="why-header" class="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2">
       ✨ Why This Program Is Better
     </h2>
     <div class="flex flex-col md:flex-row md:justify-center md:gap-12 lg:gap-24 max-w-4xl mx-auto">
       <div class="md:w-1/2 mb-8 md:mb-0">
-        <p class="text-lg mb-6 text-red-400">
+        <p class="text-lg md:text-xl mb-6 text-red-400 leading-relaxed">
           <strong class="text-red-400 capitalize">Most people try:</strong>
         </p>
-        <ul class="list-disc list-inside text-lg text-red-400 leading-relaxed">
+        <ul class="list-disc list-inside text-base md:text-lg text-red-400 leading-relaxed pl-4">
           <li class="mb-3">YouTube videos — but they’re overwhelming, scattered, and you’re left on your own.</li>
           <li class="mb-3">Online courses — but they’re often expensive, long, and filled with complex terms.</li>
         </ul>
       </div>
       <div class="md:w-1/2">
-        <p class="text-lg mb-6 text-green-400">
+        <p class="text-lg md:text-xl mb-6 text-green-400 leading-relaxed">
           <strong class="text-green-400 capitalize">This program offers:</strong>
         </p>
-        <ul class="list-disc list-inside text-lg text-green-400 leading-relaxed">
+        <ul class="list-disc list-inside text-base md:text-lg text-green-400 leading-relaxed pl-4">
           <li class="mb-3">It's live, interactive, and free.</li>
           <li class="mb-3">You’ll learn by doing, not just watching.</li>
           <li class="mb-3">You get everything you need — and nothing you don’t — in 30 minutes.</li>
@@ -202,42 +218,42 @@
   <!-- Section 3: What You’ll Learn -->
   <section
     id="what-learn"
-    class="px-6 py-12 animate-fade-in"
+    class="px-6 py-10 md:px-8 md:py-16 my-8 animate-fade-in rounded-lg bg-gray-900"
     aria-labelledby="learn-header"
   >
-    <h2 id="learn-header" class="text-3xl font-bold mb-8 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+    <h2 id="learn-header" class="text-3xl md:text-4xl font-bold mb-10 flex items-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2">
       📚 What You’ll Learn
     </h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🧠</span>
-        <strong class="font-semibold text-xl block mb-1">What is GenAI?</strong>
-        <span class="text-gray-400 text-base">Discover how tools like ChatGPT are already reshaping the world.</span>
+        <strong class="font-semibold text-xl block mb-2">What is GenAI?</strong>
+        <span class="text-gray-400 text-base leading-relaxed">Discover how tools like ChatGPT are already reshaping the world.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">⚡</span>
-        <strong class="font-semibold text-xl block mb-1">Prompt Engineering</strong>
-        <span class="text-gray-400 text-base">Learn how to talk to AI — and get the results you want.</span>
+        <strong class="font-semibold text-xl block mb-2">Prompt Engineering</strong>
+        <span class="text-gray-400 text-base leading-relaxed">Learn how to talk to AI — and get the results you want.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🧑‍💻</span>
-        <strong class="font-semibold text-xl block mb-1">Live Demo</strong>
-        <span class="text-gray-400 text-base">Try it for yourself in a hands-on example.</span>
+        <strong class="font-semibold text-xl block mb-2">Live Demo</strong>
+        <span class="text-gray-400 text-base leading-relaxed">Try it for yourself in a hands-on example.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🏢</span>
-        <strong class="font-semibold text-xl block mb-1">AI at Work</strong>
-        <span class="text-gray-400 text-base">See how ChatGPT can boost your productivity and save hours.</span>
+        <strong class="font-semibold text-xl block mb-2">AI at Work</strong>
+        <span class="text-gray-400 text-base leading-relaxed">See how ChatGPT can boost your productivity and save hours.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🛡️</span>
-        <strong class="font-semibold text-xl block mb-1">Cautions & Awareness</strong>
-        <span class="text-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
+        <strong class="font-semibold text-xl block mb-2">Cautions & Awareness</strong>
+        <span class="text-gray-400 text-base leading-relaxed">Learn to use AI wisely — without misinformation or dependency.</span>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🎮</span>
-        <strong class="font-semibold text-xl block mb-1">Game Idea</strong>
-        <span class="text-gray-400 text-base">Have some fun with AI with an AI related game to reward you for your great efforts!</span>
+        <strong class="font-semibold text-xl block mb-2">Game Idea</strong>
+        <span class="text-gray-400 text-base leading-relaxed">Have some fun with AI with an AI related game to reward you for your great efforts!</span>
       </div>
     </div>
   </section>
@@ -245,16 +261,16 @@
   <!-- Section 4: About Me -->
   <section
     id="about-me"
-    class="bg-gray-900 px-6 py-12 animate-fade-in-up-delay"
+    class="bg-gray-900 px-6 py-10 md:px-8 md:py-16 my-8 rounded-lg animate-fade-in-up-delay"
     aria-labelledby="about-header"
   >
-    <h2 id="about-header" class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+    <h2 id="about-header" class="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2">
       👋 About Me
     </h2>
-    <p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed mb-4">
+    <p class="max-w-3xl mx-auto text-base md:text-lg text-gray-300 leading-relaxed mb-4">
       Hi, I’m Guru — a high school student with a passion for AI and helping others learn how to use it. Over the past few years, I’ve used AI tools like ChatGPT to build real-world projects including websites, apps, presentations, and even prototypes for important projects such as the future of education.
     </p>
-    <p class="max-w-3xl mx-auto text-lg text-gray-300 leading-relaxed">
+    <p class="max-w-3xl mx-auto text-base md:text-lg text-gray-300 leading-relaxed">
       But more importantly, I’ve seen just how quickly AI is changing the world — and how many adults feel left behind. That’s why I created this program: to make learning AI simple, useful, and comfortable for anyone — no matter your background or tech skills. I’ve spent countless hours testing what works, what doesn’t, and how to get the most out of tools like ChatGPT. Now, I want to pass that on to you.
     </p>
   </section>
@@ -262,33 +278,33 @@
   <!-- Section: Customer Tracker -->
   <section
     id="customer-tracker"
-    class="px-6 py-12 animate-fade-in-delay bg-gray-900"
+    class="px-6 py-10 md:px-8 md:py-16 my-8 animate-fade-in-delay bg-gray-900 rounded-lg"
     aria-labelledby="tracker-header"
   >
-    <h2 id="tracker-header" class="text-3xl font-bold mb-8 flex items-center justify-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1 mx-auto max-w-xs">
+    <h2 id="tracker-header" class="text-3xl md:text-4xl font-bold mb-8 flex items-center justify-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2 mx-auto max-w-xs">
       🎯 Customer Goal Tracker
     </h2>
     <div class="mb-8 max-w-md mx-auto bg-gray-800 p-6 rounded-lg shadow-lg">
       <p class="text-xl mb-4 text-gray-200">Our goal is to reach 50 customers in the next two months!</p>
-      <p class="text-3xl font-bold text-white mb-4" id="customerCountDisplay">0/50</p>
+      <p class="text-3xl md:text-4xl font-bold text-white mb-4" id="customerCountDisplay">0/50</p>
       <div class="progress-bar-container">
         <div class="progress-bar-fill" id="customerProgressBar" style="width: 0%;"></div>
       </div>
-      <p class="text-lg text-gray-400 mt-4">Book your lesson to increase the count!</p>
+      <p class="text-base md:text-lg text-gray-400 mt-4">Book your lesson to increase the count!</p>
     </div>
   </section>
 
   <!-- Section 5: Testimonials -->
   <section
     id="testimonials"
-    class="px-6 py-12 max-w-3xl mx-auto min-h-20 border-t border-b border-gray-800 animate-fade-in-delay"
+    class="px-6 py-10 md:px-8 md:py-16 my-8 max-w-3xl mx-auto min-h-20 border-t border-b border-gray-800 animate-fade-in-delay rounded-lg bg-gray-900"
     aria-live="polite"
     aria-label="Testimonials from live attendees"
   >
-    <h2 class="text-3xl font-bold mb-4 flex items-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1">
+    <h2 class="text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2">
       💬 Testimonials
     </h2>
-    <div id="noTestimonialsMessage" class="text-gray-600 italic text-center text-lg mb-8">
+    <div id="noTestimonialsMessage" class="text-gray-600 italic text-center text-base md:text-lg mb-8">
       Testimonials to be added soon, be the first to be here by booking now!
     </div>
 
@@ -313,18 +329,18 @@
     class="text-center pt-16 pb-24 animate-fade-in-down-delay"
     aria-labelledby="cta-header"
   >
-    <h2 id="cta-header" class="text-3xl font-bold mb-4 flex items-center justify-center gap-2 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-1 mx-auto max-w-xs">
-      🗓️ Join Me On Your New Journey Please
+    <h2 id="cta-header" class="text-3xl md:text-4xl font-bold mb-8 flex items-center justify-center gap-3 tracking-wide text-gray-100 border-b-2 border-gray-600 pb-2 mx-auto max-w-xs">
+      🗓️ Join Now to Future-Proof your Skills now
     </h2>
-    <p class="text-xl mb-8 max-w-3xl mx-auto text-gray-200">
+    <p class="text-base md:text-lg mb-8 max-w-3xl mx-auto text-gray-200 leading-relaxed">
       You’ve got nothing to lose — and everything to gain.<br />
       <em>“If you found it helpful, you can donate any amount you like. If not — it was still free.”</em>
     </p>
     <a
-      href="https://forms.gle/your-google-form-link"
+      href="https://docs.google.com/forms/d/1tOYDdRt6eIjIyqho7z_pKd_yO-_yMG0yXtvj29yRcPM/edit"
       target="_blank"
       rel="noopener noreferrer"
-      class="inline-block bg-white text-black font-bold px-12 py-4 text-2xl rounded-full shadow-white shadow-3xl transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-4xl focus:outline-none focus:shadow-white focus:shadow-4xl"
+      class="inline-block bg-white text-black font-bold px-12 py-5 text-xl md:text-2xl rounded-full shadow-white shadow-3xl transition-all duration-300 ease-in-out hover:bg-black hover:text-white hover:shadow-white hover:shadow-4xl focus:outline-none focus:shadow-white focus:shadow-4xl"
       aria-label="Book Your Free Lesson Now"
     >
       Book Your Free Lesson Now
