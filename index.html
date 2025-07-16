@@ -192,61 +192,31 @@
         <span class="text-5xl mb-3">🧠</span>
         <strong class="font-semibold text-xl block mb-1">What is GenAI?</strong>
         <span class="text-gray-400 text-base">Discover how tools like ChatGPT are already reshaping the world.</span>
-        <button onclick="generateContentForLesson('Provide a very concise, one-sentence explanation of what Generative AI (GenAI) is, suitable for a beginner. Do not include any introductory or concluding phrases.', 'genAIExplanationDisplay', 'genAILoadingMessage')" class="mt-4 bg-purple-600 text-white px-5 py-2 rounded-full hover:bg-purple-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Explain GenAI
-        </button>
-        <div id="genAIExplanationDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="genAILoadingMessage" class="mt-2 text-purple-400 text-sm hidden">Generating explanation...</div>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">⚡</span>
         <strong class="font-semibold text-xl block mb-1">Prompt Engineering</strong>
         <span class="text-gray-400 text-base">Learn how to talk to AI — and get the results you want.</span>
-        <button onclick="generateContentForLesson('Generate a creative, concise, and inspiring prompt idea for a large language model like ChatGPT, focusing on a practical, everyday use case. The output should be just the prompt idea, without any introductory or concluding remarks. For example: \'Write a short story about a talking dog who becomes a detective.\'', 'generatedPromptDisplay', 'loadingMessage')" class="mt-4 bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Get a Prompt Idea
-        </button>
-        <div id="generatedPromptDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="loadingMessage" class="mt-2 text-blue-400 text-sm hidden">Generating...</div>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🧑‍💻</span>
         <strong class="font-semibold text-xl block mb-1">Live Demo</strong>
         <span class="text-gray-400 text-base">Try it for yourself in a hands-on example.</span>
-        <button onclick="generateContentForLesson('Describe a concise, practical, real-life scenario where a beginner could apply basic GenAI knowledge. Focus on a single, actionable situation, like \'Draft an email to a colleague\' or \'Summarize a long article\'. The output should be just the scenario, without any introductory or concluding remarks.', 'liveDemoScenarioDisplay', 'liveDemoLoadingMessage')" class="mt-4 bg-yellow-600 text-white px-5 py-2 rounded-full hover:bg-yellow-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Get Scenario
-        </button>
-        <div id="liveDemoScenarioDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="liveDemoLoadingMessage" class="mt-2 text-yellow-400 text-sm hidden">Generating scenario...</div>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🏢</span>
         <strong class="font-semibold text-xl block mb-1">AI at Work</strong>
         <span class="text-gray-400 text-base">See how ChatGPT can boost your productivity and save hours.</span>
-        <button onclick="generateContentForLesson('Provide a brief, practical example of how a large language model like ChatGPT can enhance productivity or save time in a typical office work scenario. Be concise, e.g., \'Use AI to quickly generate meeting minutes from a transcript.\'', 'aiAtWorkExampleDisplay', 'aiAtWorkLoadingMessage')" class="mt-4 bg-green-600 text-white px-5 py-2 rounded-full hover:bg-green-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Get Example
-        </button>
-        <div id="aiAtWorkExampleDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="aiAtWorkLoadingMessage" class="mt-2 text-green-400 text-sm hidden">Generating example...</div>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🛡️</span>
         <strong class="font-semibold text-xl block mb-1">Cautions & Awareness</strong>
         <span class="text-gray-400 text-base">Learn to use AI wisely — without misinformation or dependency.</span>
-        <button onclick="generateContentForLesson('In one concise sentence, explain a key caution or ethical consideration when using Generative AI tools to avoid misinformation or over-reliance. For example: \'Always fact-check AI-generated information.\'', 'cautionsAwarenessDisplay', 'cautionsAwarenessLoadingMessage')" class="mt-4 bg-red-600 text-white px-5 py-2 rounded-full hover:bg-red-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Get Caution
-        </button>
-        <div id="cautionsAwarenessDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="cautionsAwarenessLoadingMessage" class="mt-2 text-red-400 text-sm hidden">Generating caution...</div>
       </div>
       <div class="learn-item bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
         <span class="text-5xl mb-3">🎮</span>
         <strong class="font-semibold text-xl block mb-1">Game Idea</strong>
         <span class="text-gray-400 text-base">Have some fun with AI with an AI related game to reward you for your great efforts!</span>
-        <button onclick="generateContentForLesson('Suggest a very short, simple, interactive game idea that could be played using a large language model (like ChatGPT) to reinforce learning about AI. Be concise and focus on the game concept, e.g., \'AI Storyteller: Players take turns adding sentences to a story generated by AI.\'', 'funGameIdeaDisplay', 'funGameLoadingMessage')" class="mt-4 bg-pink-600 text-white px-5 py-2 rounded-full hover:bg-pink-700 transition-colors duration-200 text-sm font-semibold shadow-md">
-          ✨ Get Game Idea
-        </button>
-        <div id="funGameIdeaDisplay" class="mt-4 text-sm text-gray-300 italic min-h-[20px]"></div>
-        <div id="funGameLoadingMessage" class="mt-2 text-pink-400 text-sm hidden">Generating idea...</div>
       </div>
     </div>
   </section>
@@ -416,54 +386,6 @@
     closeModalBtn.addEventListener('click', () => {
       messageModal.classList.add('hidden');
     });
-
-    // Function to call Gemini API and display content for lesson buttons
-    async function generateContentForLesson(prompt, displayElementId, loadingElementId) {
-      const displayElement = document.getElementById(displayElementId);
-      const loadingElement = document.getElementById(loadingElementId);
-
-      if (!displayElement || !loadingElement) {
-        console.error(`Error: Could not find display element with ID ${displayElementId} or loading element with ID ${loadingElementId}.`);
-        return;
-      }
-
-      displayElement.textContent = ''; // Clear previous content
-      loadingElement.classList.remove('hidden'); // Show loading message
-      console.log(`Generating content for: ${prompt}`);
-
-      try {
-        let chatHistory = [];
-        chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-
-        const payload = { contents: chatHistory };
-        const apiKey = ""; // Canvas will automatically provide the API key at runtime
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-        const response = await fetch(apiUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await response.json();
-        console.log("Gemini API response:", result);
-
-        if (result.candidates && result.candidates.length > 0 &&
-            result.candidates[0].content && result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0) {
-          const text = result.candidates[0].content.parts[0].text;
-          displayElement.textContent = text;
-        } else {
-          displayElement.textContent = 'Could not generate content. Please try again.';
-          console.error('Unexpected API response structure:', result);
-        }
-      } catch (error) {
-        displayElement.textContent = 'Error generating content. Please try again later.';
-        console.error('Error calling Gemini API:', error);
-      } finally {
-        loadingElement.classList.add('hidden'); // Hide loading message
-      }
-    }
 
     // Function to delete a testimonial
     window.deleteTestimonial = async function(docId, userIdOfTestimonial) {
