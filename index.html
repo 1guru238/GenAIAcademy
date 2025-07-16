@@ -302,8 +302,8 @@
 </div>
 
 <script type="module">
-  // All Firebase imports have been removed as per your request.
-  // The testimonial section is now static.
+  // All Firebase imports and related code have been removed to resolve API key errors.
+  // The testimonial section is now entirely static.
 
   // Global references for modal elements, initialized as soon as possible
   let messageModal;
@@ -323,10 +323,12 @@
         messageModal.classList.add('hidden');
         // Ensure only the OK button is present after closing
         const modalContent = messageModal.querySelector('.modal-content');
+        // Remove any dynamically added buttons from previous interactions if they exist
         const confirmBtn = modalContent.querySelector('.bg-red-600');
         const cancelBtn = modalContent.querySelector('.bg-gray-500');
         if (confirmBtn) confirmBtn.remove();
         if (cancelBtn) cancelBtn.remove();
+        // Re-append original OK button if it was removed (e.g., during a delete confirmation prompt)
         if (!modalContent.querySelector('#closeModalBtn')) {
             modalContent.appendChild(closeModalBtn);
         }
